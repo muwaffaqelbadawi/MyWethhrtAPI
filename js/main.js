@@ -2,7 +2,7 @@ const api_key = "1b1ce6507879e8939e9da7bfbccce843";
 
 const getWeatherData = () => {
   const reqData = {
-    city: "Tokyo",
+    city: "London",
   };
   return reqData;
 };
@@ -17,30 +17,26 @@ const requestWeather = async (url) => {
   return jsonResponse;
 };
 
-const weatherParams = (data) => {
+const displayContent = (data) => {
   const { name } = data;
   const { icon, description } = data.weather[0];
   const { temp, humidity } = data.main;
   const { speed } = data.wind;
 
-  return [name, icon, description, temp, humidity, speed];
-};
-
-const displayContent = (params) => {
-  document.querySelector(".city").innerText = `Weather in ${params[0]}`;
-  document.querySelector(".city").innerText = `Weather in ${params[0]}`;
-  document.querySelector(".city").innerText = `Weather in ${params[0]}`;
-  document.querySelector(".city").innerText = `Weather in ${params[0]}`;
-
-  //   console.log(params[0]);
+  document.querySelector(".city").innerText = `Weather in ${name}`;
+  document.querySelector(
+    ".icon"
+  ).src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+  document.querySelector(".description").innerText = description;
+  document.querySelector(".temp").innerText = `${temp}°C`;
+  document.querySelector(".humidity").innerText = `humidity: ${humidity}%`;
 };
 
 const processWetherRequest = async () => {
   const requestData = getWeatherData();
   const requestURL = buildRequestURL(requestData);
   const weather = await requestWeather(requestURL);
-  const params = weatherParams(weather);
-  displayContent(params);
+  displayContent(weather);
 };
 
 processWetherRequest();
